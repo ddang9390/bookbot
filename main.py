@@ -1,10 +1,16 @@
 def main():
-    file_contents = get_book_content("books/frankenstein.txt")
+    path = "books/frankenstein.txt"
+    file_contents = get_book_content(path)
+
+    print(f"---Begin report of {path}---")
     print(f"There are {count_words(file_contents)} words in this book")
-    print(count_letters(file_contents))
+    
+    letters = count_letters(file_contents)
+    for l in sorted(letters.items(), key=lambda x:x[1], reverse=True):
+        print(f"The '{l[0]}' was found {l[1]} times")
 
 def get_book_content(path):
-    with open("books/frankenstein.txt") as f:
+    with open(path) as f:
         return f.read()
 
 def count_words(content):
@@ -15,8 +21,12 @@ def count_letters(content):
 
     letters = {}
     for l in lowered_content:
-        letters[l] = letters.get(l, 0) + 1
+        if l.isalpha():
+            letters[l] = letters.get(l, 0) + 1
 
     return letters
+
+#def sort_on(dict):
+#    return dict["num"]
 
 main()
